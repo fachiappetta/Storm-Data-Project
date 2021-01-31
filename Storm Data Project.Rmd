@@ -2,7 +2,9 @@
 title: "Storm Data Project"
 author: "Francesca Chiappetta"
 date: "1/30/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ### Tornados are the most harmful severe weather events to human health & floods cause the most economic damage
@@ -134,12 +136,13 @@ top10_damage <- sum_totaldamage[1:10,]
 ```{r, echo = TRUE}
 library(ggplot2)
 
-ggplot(top10_fatalities, aes(x = Event.Type, y = Fatalities, fill = Event.Type, label =Fatalities)) +
-geom_bar(stat = "identity") +
-labs(x = "Event type", y = "Number of fatalities", fill = "Event types") +
+ggplot(top10_fatalities, aes(x = reorder(Event.Type, Fatalities), y = Fatalities, label =Fatalities)) +
+geom_bar(stat = "identity", color = "black") +
+labs(x = "Event type", y = "Number of fatalities") +
 ggtitle("Number of fatalities due to weather events with highest fatalities") +
-geom_text(aes(label = Fatalities),vjust=0) +
-theme(axis.text.x = element_text(angle = 90))
+geom_text(aes(label = Fatalities),vjust=0, hjust = -0.2) +
+coord_flip(ylim = c(0,6000))
+
 ```
 
 **Tornados cause  the highest number of fatalities among all severe weather types since 1950 to November 2011.**
@@ -147,12 +150,12 @@ theme(axis.text.x = element_text(angle = 90))
 ```{r, echo = TRUE}
 library(ggplot2)
 
-ggplot(top10_injuries, aes(x = Event.Type, y = Injuries, fill = Event.Type, label =Injuries)) +
-geom_bar(stat = "identity") +
+ggplot(top10_injuries, aes(x = reorder(Event.Type, Injuries), y = Injuries, label =Injuries)) +
+geom_bar(stat = "identity", color = "black") +
 labs(x = "Event type", y = "Number of injuries", fill = "Event types") +
 ggtitle("Number of injuries due to weather events with highest injuries") +
-geom_text(aes(label = Injuries),vjust=0) +
-theme(axis.text.x = element_text(angle = 90))
+geom_text(aes(label = Injuries),vjust=0,  hjust = -0.2) +
+coord_flip(ylim = c(0, 100000))
 ```
 
 **Tornados cause  the highest number of injuries among all severe weather types since 1950 to November 2011.**
@@ -166,12 +169,12 @@ theme(axis.text.x = element_text(angle = 90))
 ```{r, echo = TRUE}
 library(ggplot2)
 
-ggplot(top10_damage, aes(x = Event.Type, y = Total.Damage/1000000000, fill = Event.Type, label =Total.Damage/1000000000)) +
-geom_bar(stat = "identity") +
+ggplot(top10_damage, aes(x = reorder(Event.Type, Total.Damage), y = Total.Damage/1000000000, label =Total.Damage/1000000000)) +
+geom_bar(stat = "identity", color = "black") +
 labs(x = "Event type", y = "Economic damage in trillions of dollars", fill = "Event types") +
 ggtitle("Economic damage due to weather events with highest economic damage") +
-geom_text(aes(label = round(Total.Damage/1000000000,2)),vjust=0) +
-theme(axis.text.x = element_text(angle = 90))
+geom_text(aes(label = round(Total.Damage/1000000000,2)),vjust=0, hjust = -0.2) +
+coord_flip(ylim = c(0,161))
 ```
 
 **Floods have caused the highest economic damange (property and crop damage) among all severe weather types since 1950 to November 2011.**
